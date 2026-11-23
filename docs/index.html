@@ -171,7 +171,7 @@ button.secondary{background:transparent;border:1px solid #e9c9934a;color:var(--i
 <img id="dried-flower" class="dried-flower" src="./images/pressed-flowers.webp" width="528" height="352" alt="">
 </div>
 <form id="unlock">
-<label for="password">봉인을 풀 암호를 입력해 줘</label>
+<label for="password">봉인을 풀려면 암호를 입력해 주세요.</label>
 <input id="password" type="password" required autocomplete="off" maxlength="256">
 <button id="open">봉인 풀기</button>
 <p id="unlock-status" class="feedback" role="status"></p>
@@ -345,7 +345,7 @@ get('unlock').addEventListener('submit', async event => {
   const button = get('open');
   const status = get('unlock-status');
   if (!globalThis.crypto?.subtle) {
-    status.textContent = 'HTTPS 링크를 브라우저에서 열어 줘.';
+    status.textContent = 'HTTPS 링크를 브라우저에서 열어 주세요.';
     return;
   }
   status.textContent = '';
@@ -359,7 +359,7 @@ get('unlock').addEventListener('submit', async event => {
     const plaintext = await crypto.subtle.decrypt({ name: 'AES-GCM', iv: decode(sealed.iv) }, key, decode(sealed.ciphertext));
     invitation = JSON.parse(new TextDecoder().decode(plaintext));
   } catch {
-    status.textContent = '암호를 다시 확인해 줘.';
+    status.textContent = '암호를 다시 확인해 주세요.';
     button.disabled = false;
     password.select();
     password.focus();
