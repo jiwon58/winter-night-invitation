@@ -37,9 +37,22 @@ button.secondary{background:transparent;border:1px solid #978260;color:var(--ink
 .paper{background:#fbf2e0;color:#302522;color-scheme:light}
 #body{white-space:pre-wrap;overflow-wrap:anywhere}
 #signature{text-align:right;white-space:pre-wrap}
-.venue{display:flex;align-items:start;gap:12px;padding:14px;background:#202a44;border:1px solid #857453;border-radius:4px;cursor:pointer}
+.venue{background:#202a44;border:1px solid #857453;border-radius:6px;overflow:hidden}
 .venue:has(input:checked){border-color:var(--gold);background:#33304a}
-.venue small{display:block;margin-top:5px;color:#eee0c5;line-height:1.5}
+.venue summary{display:flex;align-items:center;gap:10px;min-height:52px;padding:12px 14px;cursor:pointer;list-style:none}
+.venue summary::-webkit-details-marker{display:none}
+.venue summary::after{content:"";border:solid var(--gold);border-width:0 2px 2px 0;width:7px;height:7px;transform:rotate(45deg);margin-left:auto;margin-right:3px}
+.venue[open] summary::after{transform:rotate(225deg)}
+.venue summary:focus-visible{outline:2px solid var(--gold);outline-offset:-4px}
+.venue .selected{display:none;color:var(--gold);font-size:.78rem}
+.venue:has(input:checked) .selected{display:inline}
+.venue-info{padding:0 14px 14px}
+.venue-photo{display:grid;place-items:center;aspect-ratio:16/9;border-radius:4px;overflow:hidden;background:radial-gradient(ellipse at 50% 20%,#544356,#1d253e 78%);color:#f5e3bf;font-size:.85rem}
+.venue-photo img{display:block;width:100%;height:100%;object-fit:cover}
+.venue-info p{margin:12px 0}
+.venue-review{border-left:2px solid var(--gold);padding-left:10px;color:#f5e3bf}
+.venue-select{display:flex;align-items:center;gap:9px;min-height:44px;cursor:pointer}
+.venue-select input{accent-color:var(--gold)}
 @media(prefers-reduced-motion:reduce){*,*::before{animation:none!important}}
 </style>
 </head>
@@ -66,14 +79,14 @@ button.secondary{background:transparent;border:1px solid #978260;color:var(--ink
 <h2 id="choice-title" tabindex="-1">어떤 저녁이 좋아?</h2>
 <form id="reply">
 <div id="venues" style="display:grid;gap:10px"></div>
-<button>답장 복사하기</button>
+<button id="copy-reply" disabled>답장 복사하기</button>
 <textarea id="reply-text" aria-label="카톡 답장" readonly hidden></textarea>
 <p id="reply-status" class="feedback" role="status"></p>
 </form>
 <button id="back" type="button" class="secondary">편지 다시 읽기</button>
 </section>
 </main>
-<script id="sealed-data" type="application/json">{"salt":"AvCUObwQcbEUoznZMTDMzg==","iv":"bHxutSncJ+Kgi8Eu","iterations":600000,"ciphertext":"PiOcQan+ypMHeHGLuYRGhmNSjIulr+T25hH2SbQzNYkke9mAbIedbqj0jl1+ZBpki3wShXLjztZ8flxf4f/orx/UZgyytG6zaOAMOH39yfcD3PvjVDTmni3N+rnQyvNMNn9RsGoX3ULeBMINSjUFmTDnk+UNbCM6t6jzXmvTfZGFi8klqUbI8ImVr/QGzLoaZBiPBV47za6EgsivLRUDiwlZwxc10PbgIekDDMBHZI1YU0jjpUTx3OTAaNnokqluCPS/hyoNOLNB0YIPGUZyFm7op8AENh6AXnMC9iK/c8umpqbeCJdjKsO0EsSX+um34/ajbBogkiGyq0B2W1OxdaCCyo5dQEf1XtMk2IHeT6w81XEgawdSsc2LrHvc9G0D/8HSn1cQ6RrJtQp+V25BsDpELSwCD/aDQluk6Ue7SYIXN7dPKIcVu8JnieUF81b06N14v1YY"}</script>
+<script id="sealed-data" type="application/json">{"salt":"hq8J5OkyFPGzgsmtUku+/w==","iv":"sJr8l+4X20cNVABe","iterations":600000,"ciphertext":"8M3VMHxrh2BETIFgdoFB2orT638eTH9zbgBA2TPLUy5YiE94lkiN3MBRfeS7sn/LkzQFO3viournqR2+mwqnhG3tCb5D2HWxmaPxmyMyiGDOSSSA1cRN/Xb7CKiJQgEIm8WFoZho7eOA4ButjgNYj1TQ99dhfMYs8qMPCVLMa/gppu7CsRpQMML84mmqE6zxZhoFSPGA47WelWmCyEg/1wxDMYlMuUA5bpq8h5h8CMCHup6PwIlrpbF9bpdzjSYkC5M/n+Ddq0xx4IUpHMcJ89npNGjObW9b/duz2JDA/RfP5N8aVZe2DPIOXup5QUcbAU5kzXXHX8BnGia6f8PiuiKnV24bjWi8meH3sJlWtl7NNOFncl2hN6XopgP7sy9BdF4f86HE6PTrMFNumwKyI63Z/XImud+/MkAljLy+hHth+xvA9VvaMHEiq6WdY+0TnKzdNUfgL0ZRpamrtr4dPU6z79I/aT+/WcQ59gM7r/fTaXu/5PPX2ExAVyWsxbZ1jvThJ9/O4oU5b0A3y867h/EV6UaNnCqJqn1s3aISNhveDh8LdOHJot47TTHd7MD2AHEFS+NoSALu3/mmGaOiaRdDDyfpfaqSZiXqg52RZmfOc2qDwLhO2wWsSHzaqxlqDDUsLMCXcBY5lETts2102iJ9Ze/EBF7EURppaJhZhCzT2MvlhxDpaAQb1AWg9Kbr4W/3FHE3PqEaomiigxJqMKYGE0k6smdHoT/MnRvKZrgSI4luK+I/P6qCXM69DIaiZ1iyfXALX/03FrTczSWf9fFCOyvTUUGmM5cMmr3AK1ab3r4kiJfJUldCtDg7whN8xeiOMAKGcHsNKICExPMdu9VOggLNv7PxJuInVd92UOqVfiwbkykmyJd2dK6yJ86nn311z0NMcL4KFoiz5rwjPWcH9Q4PXMfIg31px7cPZ2MXe/Aop6ecVOEFizLZ/EN5dHP1o1etGoP48rVXR5YbEKBTqfg8zc4FwCpc1icEfushimuZFKPkYXcR/q66tNMFa/NZd69y2yP48x5bMN8t4DwMxvBDEi7Jug4zwpZmRm7VxlQFgxyrc7y2EV5kUHLUvLDXLO8SmsRd7gt1v9DDBE4LcdvWuLmdbKlRWl13AiKRGtenYmEcAj/DoRXhyI1fztxaSySPsTv1VyjlQN4vnZZRYr6XC8lJRjoZp39U+BPuDvvgrEzKZeoEqwpXtQloJMuwkyPuMJFyxowUt2BOPVPgdVBSEkXKOldrFj0/O7vfy8yhSGEwQUqC9NfYiE0Hrw=="}</script>
 <script>
 const get = id => document.getElementById(id);
 const decode = value => Uint8Array.from(atob(value), char => char.charCodeAt(0));
@@ -90,21 +103,51 @@ function fillInvitation(invitation) {
   get('body').textContent = invitation.body;
   get('signature').textContent = invitation.signature;
   get('venues').replaceChildren(...invitation.venues.map(venue => {
+    const card = document.createElement('details');
+    card.className = 'venue';
+    card.name = 'venue-details';
+
+    const heading = document.createElement('summary');
+    const name = document.createElement('strong');
+    name.textContent = venue.name;
+    const selected = document.createElement('span');
+    selected.className = 'selected';
+    selected.textContent = '선택됨';
+    heading.append(name, selected);
+
+    const info = document.createElement('div');
+    info.className = 'venue-info';
+    const photo = document.createElement('div');
+    photo.className = 'venue-photo';
+    photo.textContent = '매장 사진 준비 중';
+    if (venue.photo) {
+      const image = document.createElement('img');
+      image.alt = venue.photoAlt || venue.name + ' 실내';
+      image.addEventListener('load', () => photo.replaceChildren(image), { once: true });
+      image.src = venue.photo;
+    }
+
+    const description = document.createElement('p');
+    description.textContent = venue.description;
+    info.append(photo, description);
+    if (venue.review) {
+      const review = document.createElement('p');
+      review.className = 'venue-review';
+      review.textContent = venue.review;
+      info.append(review);
+    }
+
     const label = document.createElement('label');
-    label.className = 'venue';
+    label.className = 'venue-select';
     const input = document.createElement('input');
     input.type = 'radio';
     input.name = 'venue';
     input.value = venue.name;
     input.required = true;
-    const details = document.createElement('span');
-    const name = document.createElement('strong');
-    name.textContent = venue.name;
-    const description = document.createElement('small');
-    description.textContent = venue.description;
-    details.append(name, description);
-    label.append(input, details);
-    return label;
+    label.append(input, '여기로 갈래');
+    info.append(label);
+    card.append(heading, info);
+    return card;
   }));
 }
 
@@ -143,6 +186,11 @@ get('unlock').addEventListener('submit', async event => {
 
 get('show-choices').addEventListener('click', () => show('choices', 'choice-title'));
 get('back').addEventListener('click', () => show('letter', 'greeting'));
+get('venues').addEventListener('change', () => {
+  get('copy-reply').disabled = false;
+  get('reply-text').hidden = true;
+  get('reply-status').textContent = '';
+});
 get('reply').addEventListener('submit', async event => {
   event.preventDefault();
   const value = new FormData(event.currentTarget).get('venue');
