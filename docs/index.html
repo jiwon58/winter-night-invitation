@@ -22,6 +22,18 @@ p{line-height:1.8}
 .envelope::before,.flap{position:absolute;inset:0;content:"";background:#26314f;clip-path:polygon(0 0,50% 59%,100% 0,100% 100%,0 100%)}
 .flap{background:linear-gradient(#475273,#2b3450);clip-path:polygon(0 0,100% 0,50% 64%);transform-origin:top}
 .seal{position:absolute;top:59%;left:50%;transform:translate(-50%,-50%);width:53px;aspect-ratio:1;display:grid;place-items:center;border-radius:50%;border:3px double #d88884;background:radial-gradient(at 35% 28%,#b45d61,#6c253a 70%);color:#f3cbc0;font-size:24px;box-shadow:0 5px 8px #0006}
+.dried-flower{position:relative;display:block;width:140px;height:88px;pointer-events:none;z-index:1}
+.envelope .dried-flower{position:absolute;top:3px;left:calc(50% - 107px);filter:drop-shadow(0 2px 2px #080b1c8c)}
+.letter-flower{margin:-8px auto 0;width:max-content}
+.sprig{position:absolute;left:107px;top:76px;width:var(--length);height:2px;transform-origin:left center;transform:rotate(var(--angle));background:linear-gradient(90deg,#837048,#bba275);border-radius:50%}
+.flower-head{position:absolute;left:100%;top:50%;width:var(--size,15px);aspect-ratio:1;transform:translate(-50%,-50%);border-radius:50%;background:radial-gradient(circle at 48% 54%,#9b674d 0 14%,transparent 16%),radial-gradient(ellipse at 55% 71%,var(--petal) 0 22%,transparent 25%),radial-gradient(ellipse at 40% 22%,var(--petal) 0 21%,transparent 24%),radial-gradient(ellipse at 19% 52%,var(--petal) 0 20%,transparent 23%),radial-gradient(ellipse at 80% 42%,var(--light) 0 19%,transparent 23%),radial-gradient(ellipse at 67% 83%,var(--light) 0 19%,transparent 23%)}
+.flower-head::after{content:"";position:absolute;inset:2px 1px 5px 5px;border-radius:45%;border-top:1px solid var(--light);transform:rotate(-32deg)}
+.sprig:nth-child(1){--length:97px;--angle:214deg;--petal:#d7b7a4;--light:#efd1ba;--size:20px}
+.sprig:nth-child(2){--length:78px;--angle:206deg;--petal:#bc8c89;--light:#dec0ad;--size:17px}
+.sprig:nth-child(3){--length:76px;--angle:223deg;--petal:#c9a46e;--light:#ead2a2;--size:16px}
+.sprig:nth-child(4){--length:88px;--angle:234deg;--petal:#bf9290;--light:#e2b4a6;--size:20px}
+.sprig:nth-child(5){--length:62px;--angle:242deg;--petal:#d5b693;--light:#efdab5;--size:14px}
+.sprig:nth-child(6){--length:101px;--angle:195deg;--petal:#c4a679;--light:#e6ce9f;--size:13px}
 .unsealed .seal{animation:release .6s ease-in forwards}
 .unsealed .flap{animation:unfold .6s .24s ease-in-out forwards}
 @keyframes release{to{transform:translate(-25%,24%) rotate(35deg) scale(.7);opacity:0}}
@@ -67,7 +79,16 @@ button.secondary{background:transparent;border:1px solid #978260;color:var(--ink
 <section id="cover" aria-labelledby="title">
 <div class="snow" aria-hidden="true">✦ · ✧</div>
 <h1 id="title">너와 보내고 싶은<br>크리스마스 저녁</h1>
-<div id="envelope" class="envelope" aria-hidden="true"><span class="flap"></span><span class="seal">❄</span></div>
+<div id="envelope" class="envelope" aria-hidden="true"><span class="flap"></span><span class="seal"></span>
+<span id="dried-flower" class="dried-flower" aria-hidden="true">
+  <span class="sprig"><span class="flower-head"></span></span>
+  <span class="sprig"><span class="flower-head"></span></span>
+  <span class="sprig"><span class="flower-head"></span></span>
+  <span class="sprig"><span class="flower-head"></span></span>
+  <span class="sprig"><span class="flower-head"></span></span>
+  <span class="sprig"><span class="flower-head"></span></span>
+</span>
+</div>
 <form id="unlock">
 <label for="password">봉인을 풀 암호를 입력해 줘</label>
 <input id="password" type="password" required autocomplete="off" maxlength="256">
@@ -76,13 +97,14 @@ button.secondary{background:transparent;border:1px solid #978260;color:var(--ink
 </form>
 </section>
 <section id="letter" class="paper" aria-labelledby="greeting" hidden>
+<div id="letter-flower" class="letter-flower" aria-hidden="true"></div>
 <h2 id="greeting" tabindex="-1"></h2>
 <p id="body"></p>
 <p id="signature"></p>
 <button id="show-choices" type="button">저녁 초대장 보기</button>
 </section>
 <section id="choices" aria-labelledby="choice-title" hidden>
-<h2 id="choice-title" tabindex="-1">어떤 저녁이 좋아?</h2>
+<h2 id="choice-title" tabindex="-1">어떤 저녁을 함께 보내고 싶으세요?</h2>
 <form id="reply">
 <div id="venues" style="display:grid;gap:10px"></div>
 <button id="copy-reply" disabled>답장 복사하기</button>
@@ -193,7 +215,7 @@ function fillInvitation(invitation) {
     input.name = 'venue';
     input.value = venue.name;
     input.required = true;
-    label.append(input, '여기로 갈래');
+    label.append(input, '여기로 갈래요');
     info.append(label);
     card.append(heading, info);
     return card;
@@ -228,9 +250,26 @@ get('unlock').addEventListener('submit', async event => {
   }
   password.value = '';
   fillInvitation(invitation);
-  get('envelope').classList.add('unsealed');
-  const delay = matchMedia('(prefers-reduced-motion: reduce)').matches ? 0 : 850;
-  setTimeout(() => show('letter', 'greeting'), delay);
+  const envelope = get('envelope');
+  const flower = get('dried-flower');
+  const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  envelope.classList.add('unsealed');
+
+  const openLetter = () => {
+    const start = flower.getBoundingClientRect();
+    get('letter-flower').append(flower);
+    show('letter', 'greeting');
+
+    if (reduceMotion || !flower.animate) return;
+    const end = flower.getBoundingClientRect();
+    flower.animate([
+      { transform: 'translate(' + (start.left - end.left) + 'px, ' + (start.top - end.top) + 'px) rotate(-7deg)' },
+      { transform: 'translate(0, 0) rotate(0)' }
+    ], { duration: 640, easing: 'cubic-bezier(.2,.75,.35,1)' });
+  };
+
+  if (reduceMotion) openLetter();
+  else setTimeout(openLetter, 850);
 });
 
 get('show-choices').addEventListener('click', () => show('choices', 'choice-title'));
@@ -243,17 +282,17 @@ get('venues').addEventListener('change', () => {
 get('reply').addEventListener('submit', async event => {
   event.preventDefault();
   const value = new FormData(event.currentTarget).get('venue');
-  const text = '크리스마스 데이트는 ‘' + value + '’가 좋아!';
+  const text = '크리스마스 데이트는 ‘' + value + '’에 가고 싶어요!';
   const fallback = get('reply-text');
   try {
     await navigator.clipboard.writeText(text);
     fallback.hidden = true;
-    get('reply-status').textContent = '복사했어. 카톡에 붙여넣어 보내 줘.';
+    get('reply-status').textContent = '답장을 복사했어요. 카톡에 붙여넣어 보내 주세요.';
   } catch {
     fallback.value = text;
     fallback.hidden = false;
     fallback.select();
-    get('reply-status').textContent = '선택한 답장을 직접 복사해 카톡으로 보내 줘.';
+    get('reply-status').textContent = '선택한 답장을 복사해 카톡으로 보내 주세요.';
   }
 });
 </script>
