@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<meta property="og:title" content="겨울밤 초대장">
+<meta property="og:description" content="너와 보내고 싶은 크리스마스 저녁">
+<title>겨울밤 초대장</title>
+<style>
+:root{color-scheme:dark;--ink:#f7eed9;--gold:#e0bf85;--shade:#131b31}
+*{box-sizing:border-box}
+body{margin:0;min-height:100svh;background:radial-gradient(ellipse at 50% 75%,#363048,transparent 65%),#0c1224;color:var(--ink);font-family:system-ui,sans-serif;display:grid;place-items:center;padding:24px}
+main{width:min(100%,540px)}
+section{padding:clamp(22px,6vw,52px);border:1px solid #a68758;border-radius:6px;background:#131b31;box-shadow:0 18px 64px #04071380}
+#cover{text-align:center;background:radial-gradient(ellipse at 50% 80%,#30283a,var(--shade) 75%)}
+h1,h2{font-family:'Noto Serif KR','Nanum Myeongjo',Georgia,serif;word-break:keep-all;line-height:1.45;font-weight:500;margin:10px 0 24px}
+h1{font-size:clamp(27px,6vw,43px)}
+p{line-height:1.8}
+.snow{color:var(--gold);letter-spacing:.6em}
+.envelope{position:relative;margin:32px auto 28px;width:min(220px,100%);height:135px;perspective:550px;background:#333e61;border:1px solid #9c815b;border-radius:3px;box-shadow:0 12px 30px #04071365}
+.envelope::before,.flap{position:absolute;inset:0;content:"";background:#26314f;clip-path:polygon(0 0,50% 59%,100% 0,100% 100%,0 100%)}
+.flap{background:linear-gradient(#475273,#2b3450);clip-path:polygon(0 0,100% 0,50% 64%);transform-origin:top}
+.seal{position:absolute;top:59%;left:50%;transform:translate(-50%,-50%);width:53px;aspect-ratio:1;display:grid;place-items:center;border-radius:50%;border:3px double #d88884;background:radial-gradient(at 35% 28%,#b45d61,#6c253a 70%);color:#f3cbc0;font-size:24px;box-shadow:0 5px 8px #0006}
+.unsealed .seal{animation:release .6s ease-in forwards}
+.unsealed .flap{animation:unfold .6s .24s ease-in-out forwards}
+@keyframes release{to{transform:translate(-25%,24%) rotate(35deg) scale(.7);opacity:0}}
+@keyframes unfold{to{transform:rotateX(170deg);opacity:.4}}
+form{display:grid;gap:10px}
+input,button,textarea{font:inherit}
+input[type=password],textarea{width:100%;border:1px solid #978260;border-radius:4px;background:#10172a;color:var(--ink);padding:12px;text-align:center}
+button{min-height:46px;border:0;border-radius:4px;padding:10px 16px;background:var(--gold);color:#211a16;font-weight:650;cursor:pointer}
+button:disabled{opacity:.6}
+button.secondary{background:transparent;border:1px solid #978260;color:var(--ink);margin-top:12px}
+[hidden]{display:none!important}
+.feedback{margin:0;color:#ffd4b5}
+.paper{background:#fbf2e0;color:#302522;color-scheme:light}
+#body{white-space:pre-wrap;overflow-wrap:anywhere}
+#signature{text-align:right;white-space:pre-wrap}
+.venue{display:flex;align-items:start;gap:12px;padding:14px;background:#202a44;border:1px solid #857453;border-radius:4px;cursor:pointer}
+.venue:has(input:checked){border-color:var(--gold);background:#33304a}
+.venue small{display:block;margin-top:5px;color:#eee0c5;line-height:1.5}
+@media(prefers-reduced-motion:reduce){*,*::before{animation:none!important}}
+</style>
+</head>
+<body>
+<main>
+<section id="cover" aria-labelledby="title">
+<div class="snow" aria-hidden="true">✦ · ✧</div>
+<h1 id="title">너와 보내고 싶은<br>크리스마스 저녁</h1>
+<div id="envelope" class="envelope" aria-hidden="true"><span class="flap"></span><span class="seal">❄</span></div>
+<form id="unlock">
+<label for="password">봉인을 풀 암호를 입력해 줘</label>
+<input id="password" type="password" required autocomplete="off" maxlength="256">
+<button id="open">봉인 풀기</button>
+<p id="unlock-status" class="feedback" role="status"></p>
+</form>
+</section>
+<section id="letter" class="paper" aria-labelledby="greeting" hidden>
+<h2 id="greeting" tabindex="-1"></h2>
+<p id="body"></p>
+<p id="signature"></p>
+<button id="show-choices" type="button">저녁 초대장 보기</button>
+</section>
+<section id="choices" aria-labelledby="choice-title" hidden>
+<h2 id="choice-title" tabindex="-1">어떤 저녁이 좋아?</h2>
+<form id="reply">
+<div id="venues" style="display:grid;gap:10px"></div>
+<button>답장 복사하기</button>
+<textarea id="reply-text" aria-label="카톡 답장" readonly hidden></textarea>
+<p id="reply-status" class="feedback" role="status"></p>
+</form>
+<button id="back" type="button" class="secondary">편지 다시 읽기</button>
+</section>
+</main>
+<script id="sealed-data" type="application/json">{"salt":"AvCUObwQcbEUoznZMTDMzg==","iv":"bHxutSncJ+Kgi8Eu","iterations":600000,"ciphertext":"PiOcQan+ypMHeHGLuYRGhmNSjIulr+T25hH2SbQzNYkke9mAbIedbqj0jl1+ZBpki3wShXLjztZ8flxf4f/orx/UZgyytG6zaOAMOH39yfcD3PvjVDTmni3N+rnQyvNMNn9RsGoX3ULeBMINSjUFmTDnk+UNbCM6t6jzXmvTfZGFi8klqUbI8ImVr/QGzLoaZBiPBV47za6EgsivLRUDiwlZwxc10PbgIekDDMBHZI1YU0jjpUTx3OTAaNnokqluCPS/hyoNOLNB0YIPGUZyFm7op8AENh6AXnMC9iK/c8umpqbeCJdjKsO0EsSX+um34/ajbBogkiGyq0B2W1OxdaCCyo5dQEf1XtMk2IHeT6w81XEgawdSsc2LrHvc9G0D/8HSn1cQ6RrJtQp+V25BsDpELSwCD/aDQluk6Ue7SYIXN7dPKIcVu8JnieUF81b06N14v1YY"}</script>
+<script>
+const get = id => document.getElementById(id);
+const decode = value => Uint8Array.from(atob(value), char => char.charCodeAt(0));
+const sealed = JSON.parse(get('sealed-data').textContent);
+
+function show(id, heading) {
+  for (const panel of ['cover', 'letter', 'choices']) get(panel).hidden = panel !== id;
+  get(heading).focus();
+  window.scrollTo(0, 0);
+}
+
+function fillInvitation(invitation) {
+  get('greeting').textContent = invitation.greeting;
+  get('body').textContent = invitation.body;
+  get('signature').textContent = invitation.signature;
+  get('venues').replaceChildren(...invitation.venues.map(venue => {
+    const label = document.createElement('label');
+    label.className = 'venue';
+    const input = document.createElement('input');
+    input.type = 'radio';
+    input.name = 'venue';
+    input.value = venue.name;
+    input.required = true;
+    const details = document.createElement('span');
+    const name = document.createElement('strong');
+    name.textContent = venue.name;
+    const description = document.createElement('small');
+    description.textContent = venue.description;
+    details.append(name, description);
+    label.append(input, details);
+    return label;
+  }));
+}
+
+get('unlock').addEventListener('submit', async event => {
+  event.preventDefault();
+  const password = get('password');
+  const button = get('open');
+  const status = get('unlock-status');
+  if (!globalThis.crypto?.subtle) {
+    status.textContent = 'HTTPS 링크를 브라우저에서 열어 줘.';
+    return;
+  }
+  status.textContent = '';
+  button.disabled = true;
+  let invitation;
+  try {
+    const material = await crypto.subtle.importKey('raw', new TextEncoder().encode(password.value), 'PBKDF2', false, ['deriveKey']);
+    const key = await crypto.subtle.deriveKey({
+      name: 'PBKDF2', salt: decode(sealed.salt), iterations: sealed.iterations, hash: 'SHA-256'
+    }, material, { name: 'AES-GCM', length: 256 }, false, ['decrypt']);
+    const plaintext = await crypto.subtle.decrypt({ name: 'AES-GCM', iv: decode(sealed.iv) }, key, decode(sealed.ciphertext));
+    invitation = JSON.parse(new TextDecoder().decode(plaintext));
+  } catch {
+    status.textContent = '암호를 다시 확인해 줘.';
+    button.disabled = false;
+    password.select();
+    password.focus();
+    return;
+  }
+  password.value = '';
+  fillInvitation(invitation);
+  get('envelope').classList.add('unsealed');
+  const delay = matchMedia('(prefers-reduced-motion: reduce)').matches ? 0 : 850;
+  setTimeout(() => show('letter', 'greeting'), delay);
+});
+
+get('show-choices').addEventListener('click', () => show('choices', 'choice-title'));
+get('back').addEventListener('click', () => show('letter', 'greeting'));
+get('reply').addEventListener('submit', async event => {
+  event.preventDefault();
+  const value = new FormData(event.currentTarget).get('venue');
+  const text = '크리스마스 데이트는 ‘' + value + '’가 좋아!';
+  const fallback = get('reply-text');
+  try {
+    await navigator.clipboard.writeText(text);
+    fallback.hidden = true;
+    get('reply-status').textContent = '복사했어. 카톡에 붙여넣어 보내 줘.';
+  } catch {
+    fallback.value = text;
+    fallback.hidden = false;
+    fallback.select();
+    get('reply-status').textContent = '선택한 답장을 직접 복사해 카톡으로 보내 줘.';
+  }
+});
+</script>
+</body>
+</html>
