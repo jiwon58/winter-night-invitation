@@ -69,15 +69,12 @@ p{line-height:1.8}
 }
 .seal{
   position:absolute;
-  top:60%;
-  left:50%;
+  top:63%;
+  left:53%;
   transform:translate(-50%,-50%);
-  width:49px;
-  aspect-ratio:1;
-  border-radius:48% 52% 47% 53%;
-  border:1px solid #ca8480;
-  background:radial-gradient(at 37% 28%,#b96569,#792f46 75%);
-  box-shadow:inset 0 0 0 3px #68263c4f,0 5px 10px #06091273;
+  width:58px;
+  height:auto;
+  filter:drop-shadow(0 4px 5px #06091285);
 }
 .dried-flower{position:relative;display:block;width:153px;height:auto;pointer-events:none;z-index:1}
 .envelope .dried-flower{
@@ -90,8 +87,8 @@ p{line-height:1.8}
 }
 .letter-flower{margin:-9px auto 4px;width:max-content}
 .letter-flower .dried-flower{filter:drop-shadow(0 2px 2px #6c493428)}
-.unsealed .seal{animation:release 320ms var(--settle) both}
-.unsealed .flap{animation:unfold 350ms var(--settle) both}
+.unsealed .seal{animation:release 430ms var(--settle) both}
+.unsealed .flap{animation:unfold 470ms var(--settle) both}
 @keyframes release{
   to{transform:translate(-35%,-18%) rotate(12deg) scale(.87);opacity:0}
 }
@@ -100,11 +97,11 @@ p{line-height:1.8}
 }
 .opening .dried-flower{view-transition-name:pressed-flower}
 ::view-transition{pointer-events:none}
-html.opening::view-transition-old(root){animation:fade-out 245ms ease-out both}
-html.opening::view-transition-new(root){animation:fade-in 420ms var(--settle) both}
-html.opening::view-transition-group(pressed-flower){animation-duration:520ms;animation-timing-function:var(--settle)}
-html.opening::view-transition-old(pressed-flower){animation:fade-out 420ms var(--settle) both}
-html.opening::view-transition-new(pressed-flower){animation:fade-in 420ms var(--settle) both}
+html.opening::view-transition-old(root){animation:fade-out 320ms ease-out both}
+html.opening::view-transition-new(root){animation:fade-in 530ms var(--settle) both}
+html.opening::view-transition-group(pressed-flower){animation-duration:650ms;animation-timing-function:var(--settle)}
+html.opening::view-transition-old(pressed-flower){animation:fade-out 530ms var(--settle) both}
+html.opening::view-transition-new(pressed-flower){animation:fade-in 530ms var(--settle) both}
 @keyframes fade-out{to{opacity:0}}
 @keyframes fade-in{from{opacity:0}}
 @keyframes panel-in{from{opacity:0;transform:translateY(8px)}}
@@ -170,7 +167,7 @@ button.secondary{background:transparent;border:1px solid #e9c9934a;color:var(--i
 <section id="cover" aria-labelledby="title">
 <div class="snow" aria-hidden="true">✦ · ✧</div>
 <h1 id="title">너와 보내고 싶은<br>크리스마스 저녁</h1>
-<div id="envelope" class="envelope" aria-hidden="true"><span class="flap"></span><span class="seal"></span>
+<div id="envelope" class="envelope" aria-hidden="true"><span class="flap"></span><img class="seal" src="./images/wax-seal.webp" width="192" height="192" alt="">
 <img id="dried-flower" class="dried-flower" src="./images/pressed-flowers.webp" width="528" height="352" alt="">
 </div>
 <form id="unlock">
