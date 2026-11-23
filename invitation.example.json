@@ -8,16 +8,24 @@
       "neighborhood": "잠실 · KT송파타워 2층",
       "description": "높은 천장과 통창이 있는 공간에서 생면 파스타와 스테이크를 즐길 수 있어요.",
       "review": "탁 트인 공간에서 트러플 따야린이나 뇨끼를 나눠 먹으며 기념일 저녁을 보내기 좋아 보여요.",
-      "naverMap": "https://map.naver.com/p/search/%EB%8D%94%20%EC%9D%B4%ED%83%88%EB%A6%AC%EC%95%88%20%ED%81%B4%EB%9F%BD%20%EC%9E%A0%EC%8B%A4%EB%A1%9C%20209",
-      "kakaoMap": "https://map.kakao.com/link/search/%EB%8D%94%20%EC%9D%B4%ED%83%88%EB%A6%AC%EC%95%88%20%ED%81%B4%EB%9F%BD%20%EC%9E%A0%EC%8B%A4%EB%A1%9C%20209"
+      "naverMap": "https://m.place.naver.com/restaurant/1072373722/home",
+      "kakaoMap": "https://map.kakao.com/link/search/%EB%8D%94%20%EC%9D%B4%ED%83%88%EB%A6%AC%EC%95%88%20%ED%81%B4%EB%9F%BD%20%EC%9E%A0%EC%8B%A4%EB%A1%9C%20209",
+      "photo": "./images/italian-club.webp",
+      "photoAlt": "높은 천장과 통창, 조명이 보이는 더 이탈리안 클럽 잠실 실내",
+      "photoSourceName": "네이버 플레이스",
+      "photoSource": "https://m.place.naver.com/restaurant/1072373722/photo"
     },
     {
       "name": "앨리나인",
       "neighborhood": "송리단길 · 석촌역 근처",
       "description": "따뜻한 조명의 작은 비스트로예요. 된장 크림 파스타처럼 익숙한 재료를 새롭게 풀어낸 메뉴가 있어요.",
       "review": "따뜻한 조명에 격식이 과하지 않아, 색다른 파스타를 나눠 먹으며 데이트하기 좋은 곳이에요.",
-      "naverMap": "https://map.naver.com/p/search/%EC%95%A8%EB%A6%AC%EB%82%98%EC%9D%B8%20%EB%B0%B1%EC%A0%9C%EA%B3%A0%EB%B6%84%EB%A1%9C41%EA%B8%B8%2027",
-      "kakaoMap": "https://map.kakao.com/link/search/%EC%95%A8%EB%A6%AC%EB%82%98%EC%9D%B8%20%EB%B0%B1%EC%A0%9C%EA%B3%A0%EB%B6%84%EB%A1%9C41%EA%B8%B8%2027"
+      "naverMap": "https://m.place.naver.com/restaurant/1923702493/home",
+      "kakaoMap": "https://map.kakao.com/link/search/%EC%95%A8%EB%A6%AC%EB%82%98%EC%9D%B8%20%EB%B0%B1%EC%A0%9C%EA%B3%A0%EB%B6%84%EB%A1%9C41%EA%B8%B8%2027",
+      "photo": "./images/alley-nine.webp",
+      "photoAlt": "창가와 원목 테이블이 보이는 앨리나인 실내",
+      "photoSourceName": "네이버 플레이스",
+      "photoSource": "https://m.place.naver.com/restaurant/1923702493/photo"
     },
     {
       "name": "도우룸",
@@ -25,7 +33,11 @@
       "description": "오픈 키친을 둔 생면 파스타 전문점이에요. 면의 모양과 식감에 따라 소스가 달라져요.",
       "review": "먹물 카펠리니처럼 면의 식감과 소스가 뚜렷해, 생면 파스타 자체를 즐기고 싶은 날에 어울려요.",
       "naverMap": "https://map.naver.com/p/search/%EB%8F%84%EC%9A%B0%EB%A3%B8%20%EB%8F%99%EA%B4%91%EB%A1%9C%2099",
-      "kakaoMap": "https://map.kakao.com/link/search/%EB%8F%84%EC%9A%B0%EB%A3%B8%20%EB%B0%A9%EB%B0%B0%EB%8F%99"
+      "kakaoMap": "https://map.kakao.com/link/search/%EB%8F%84%EC%9A%B0%EB%A3%B8%20%EB%B0%A9%EB%B0%B0%EB%8F%99",
+      "photo": "./images/doughroom.webp",
+      "photoAlt": "큰 창과 원목 의자가 놓인 도우룸 실내",
+      "photoSourceName": "미쉐린 가이드",
+      "photoSource": "https://guide.michelin.com/kr/ko/seoul-capital-area/kr-seoul/restaurant/doughroom"
     },
     {
       "name": "이솔라",
@@ -33,7 +45,11 @@
       "description": "한강을 바라보며 파스타나 스테이크를 먹을 수 있는 이탈리안 레스토랑이에요.",
       "review": "창 너머 한강 풍경과 아늑한 조명이 기억에 남는다는 후기가 많아, 전망을 즐기는 저녁에 잘 맞아요.",
       "naverMap": "https://m.place.naver.com/restaurant/429256900/home",
-      "kakaoMap": "https://map.kakao.com/link/search/%EC%9D%B4%EC%86%94%EB%9D%BC%20%EC%98%AC%EB%A6%BC%ED%94%BD%EB%8C%80%EB%A1%9C%202085-14"
+      "kakaoMap": "https://map.kakao.com/link/search/%EC%9D%B4%EC%86%94%EB%9D%BC%20%EC%98%AC%EB%A6%BC%ED%94%BD%EB%8C%80%EB%A1%9C%202085-14",
+      "photo": "./images/isola.webp",
+      "photoAlt": "한강을 바라보는 통창이 있는 이솔라 좌석",
+      "photoSourceName": "세빛섬 공식 홈페이지",
+      "photoSource": "https://www.somesevit.co.kr/en/business/gavit/isola.do"
     },
     {
       "name": "이태리국시 도산",
@@ -41,7 +57,11 @@
       "description": "돌김이나 숯불 대창처럼 한식 재료를 파스타와 리조또에 접목한 곳이에요.",
       "review": "은은한 조명 아래 숯불 대창 돌솥 파스타나 돌김 파스타처럼 개성 있는 메뉴를 나눠 먹기 좋아요.",
       "naverMap": "https://map.naver.com/p/entry/place/1279519421",
-      "kakaoMap": "https://place.map.kakao.com/1136678146"
+      "kakaoMap": "https://place.map.kakao.com/1136678146",
+      "photo": "./images/italyguksi-dosan.webp",
+      "photoAlt": "따뜻한 벽돌색 벽과 조명이 보이는 이태리국시 도산 실내",
+      "photoSourceName": "네이버 플레이스",
+      "photoSource": "https://m.place.naver.com/restaurant/1279519421/photo"
     }
   ]
 }
