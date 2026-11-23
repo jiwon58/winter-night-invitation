@@ -40,6 +40,7 @@ button.secondary{background:transparent;border:1px solid #978260;color:var(--ink
 .venue{background:#202a44;border:1px solid #857453;border-radius:6px;overflow:hidden}
 .venue:has(input:checked){border-color:var(--gold);background:#33304a}
 .venue summary{display:flex;align-items:center;gap:10px;min-height:52px;padding:12px 14px;cursor:pointer;list-style:none}
+.venue-heading small{display:block;margin-top:2px;color:#e7d8bf;font-size:.8rem}
 .venue summary::-webkit-details-marker{display:none}
 .venue summary::after{content:"";border:solid var(--gold);border-width:0 2px 2px 0;width:7px;height:7px;transform:rotate(45deg);margin-left:auto;margin-right:3px}
 .venue[open] summary::after{transform:rotate(225deg)}
@@ -51,6 +52,8 @@ button.secondary{background:transparent;border:1px solid #978260;color:var(--ink
 .venue-photo img{display:block;width:100%;height:100%;object-fit:cover}
 .venue-info p{margin:12px 0}
 .venue-review{border-left:2px solid var(--gold);padding-left:10px;color:#f5e3bf}
+.venue-maps{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+.venue-maps a{display:inline-flex;align-items:center;min-height:44px;padding:6px 12px;border:1px solid #978260;border-radius:4px;color:var(--ink);text-underline-offset:3px}
 .venue-select{display:flex;align-items:center;gap:9px;min-height:44px;cursor:pointer}
 .venue-select input{accent-color:var(--gold)}
 @media(prefers-reduced-motion:reduce){*,*::before{animation:none!important}}
@@ -86,7 +89,7 @@ button.secondary{background:transparent;border:1px solid #978260;color:var(--ink
 <button id="back" type="button" class="secondary">편지 다시 읽기</button>
 </section>
 </main>
-<script id="sealed-data" type="application/json">{"salt":"hq8J5OkyFPGzgsmtUku+/w==","iv":"sJr8l+4X20cNVABe","iterations":600000,"ciphertext":"8M3VMHxrh2BETIFgdoFB2orT638eTH9zbgBA2TPLUy5YiE94lkiN3MBRfeS7sn/LkzQFO3viournqR2+mwqnhG3tCb5D2HWxmaPxmyMyiGDOSSSA1cRN/Xb7CKiJQgEIm8WFoZho7eOA4ButjgNYj1TQ99dhfMYs8qMPCVLMa/gppu7CsRpQMML84mmqE6zxZhoFSPGA47WelWmCyEg/1wxDMYlMuUA5bpq8h5h8CMCHup6PwIlrpbF9bpdzjSYkC5M/n+Ddq0xx4IUpHMcJ89npNGjObW9b/duz2JDA/RfP5N8aVZe2DPIOXup5QUcbAU5kzXXHX8BnGia6f8PiuiKnV24bjWi8meH3sJlWtl7NNOFncl2hN6XopgP7sy9BdF4f86HE6PTrMFNumwKyI63Z/XImud+/MkAljLy+hHth+xvA9VvaMHEiq6WdY+0TnKzdNUfgL0ZRpamrtr4dPU6z79I/aT+/WcQ59gM7r/fTaXu/5PPX2ExAVyWsxbZ1jvThJ9/O4oU5b0A3y867h/EV6UaNnCqJqn1s3aISNhveDh8LdOHJot47TTHd7MD2AHEFS+NoSALu3/mmGaOiaRdDDyfpfaqSZiXqg52RZmfOc2qDwLhO2wWsSHzaqxlqDDUsLMCXcBY5lETts2102iJ9Ze/EBF7EURppaJhZhCzT2MvlhxDpaAQb1AWg9Kbr4W/3FHE3PqEaomiigxJqMKYGE0k6smdHoT/MnRvKZrgSI4luK+I/P6qCXM69DIaiZ1iyfXALX/03FrTczSWf9fFCOyvTUUGmM5cMmr3AK1ab3r4kiJfJUldCtDg7whN8xeiOMAKGcHsNKICExPMdu9VOggLNv7PxJuInVd92UOqVfiwbkykmyJd2dK6yJ86nn311z0NMcL4KFoiz5rwjPWcH9Q4PXMfIg31px7cPZ2MXe/Aop6ecVOEFizLZ/EN5dHP1o1etGoP48rVXR5YbEKBTqfg8zc4FwCpc1icEfushimuZFKPkYXcR/q66tNMFa/NZd69y2yP48x5bMN8t4DwMxvBDEi7Jug4zwpZmRm7VxlQFgxyrc7y2EV5kUHLUvLDXLO8SmsRd7gt1v9DDBE4LcdvWuLmdbKlRWl13AiKRGtenYmEcAj/DoRXhyI1fztxaSySPsTv1VyjlQN4vnZZRYr6XC8lJRjoZp39U+BPuDvvgrEzKZeoEqwpXtQloJMuwkyPuMJFyxowUt2BOPVPgdVBSEkXKOldrFj0/O7vfy8yhSGEwQUqC9NfYiE0Hrw=="}</script>
+<script id="sealed-data" type="application/json">{"salt":"5Dd9ar7BtnroxNzbO2zpwg==","iv":"bHQ6QgLN1NozWokH","iterations":600000,"ciphertext":"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"}</script>
 <script>
 const get = id => document.getElementById(id);
 const decode = value => Uint8Array.from(atob(value), char => char.charCodeAt(0));
@@ -113,29 +116,52 @@ function fillInvitation(invitation) {
     const selected = document.createElement('span');
     selected.className = 'selected';
     selected.textContent = '선택됨';
-    heading.append(name, selected);
+    const title = document.createElement('div');
+    title.className = 'venue-heading';
+    title.append(name);
+    if (venue.neighborhood) {
+      const neighborhood = document.createElement('small');
+      neighborhood.textContent = venue.neighborhood;
+      title.append(neighborhood);
+    }
+    heading.append(title, selected);
 
     const info = document.createElement('div');
     info.className = 'venue-info';
     const photo = document.createElement('div');
     photo.className = 'venue-photo';
-    photo.textContent = '매장 사진 준비 중';
     if (venue.photo) {
       const image = document.createElement('img');
       image.alt = venue.photoAlt || venue.name + ' 실내';
-      image.addEventListener('load', () => photo.replaceChildren(image), { once: true });
+      image.addEventListener('load', () => {
+        photo.append(image);
+        info.prepend(photo);
+      }, { once: true });
       image.src = venue.photo;
     }
 
     const description = document.createElement('p');
     description.textContent = venue.description;
-    info.append(photo, description);
+    info.append(description);
     if (venue.review) {
       const review = document.createElement('p');
       review.className = 'venue-review';
       review.textContent = venue.review;
       info.append(review);
     }
+
+    const maps = document.createElement('div');
+    maps.className = 'venue-maps';
+    for (const [label, link] of [['네이버 지도', venue.naverMap], ['카카오맵', venue.kakaoMap]]) {
+      if (!link?.startsWith('https://')) continue;
+      const anchor = document.createElement('a');
+      anchor.href = link;
+      anchor.target = '_blank';
+      anchor.rel = 'noopener noreferrer';
+      anchor.textContent = label;
+      maps.append(anchor);
+    }
+    if (maps.childElementCount) info.append(maps);
 
     const label = document.createElement('label');
     label.className = 'venue-select';
