@@ -6,8 +6,11 @@ const password = (await readFile('/dev/stdin', 'utf8')).replace(/\r?\n$/, '');
 if (!password || password.length > 256) throw new Error('Enter a password of 1–256 characters.');
 const invitation = JSON.parse(await readFile(process.argv[2], 'utf8'));
 if (![invitation.greeting, invitation.body, invitation.signature].every(value => typeof value === 'string')
-    || !Array.isArray(invitation.venues) || !invitation.venues.length
-    || !invitation.venues.every(venue => typeof venue?.name === 'string' && typeof venue.description === 'string')) {
+    || !Array.isArray(invitation.venues) || invitation.venues.length !== 2
+    || !invitation.venues.every(venue => venue
+      && [venue.name, venue.description, venue.address, venue.photo, venue.photoAlt, venue.photoSourceName]
+        .every(value => typeof value === 'string' && value.trim())
+      && [venue.naverMap, venue.photoSource].every(value => typeof value === 'string' && value.startsWith('https://')))) {
   throw new Error('Invalid invitation content.');
 }
 
