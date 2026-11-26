@@ -162,16 +162,14 @@ button.secondary{background:transparent;border:1px solid #e9c9934a;color:var(--i
 .route-label{margin:0 0 9px;color:var(--gold);font-size:.92rem;font-weight:650;letter-spacing:.015em}
 .alley-walk{
   position:relative;
-  display:flex;
-  align-items:flex-end;
-  justify-content:center;
+  display:block;
   min-height:clamp(230px,68vw,350px);
   margin:18px 0 22px;
   width:100%;
-  padding:18px 12px;
+  padding:0;
   border:1px solid #ead3aa38;
   border-radius:16px;
-  background:linear-gradient(to bottom,#10162b15 24%,#101626b0 78%,#101626eb),url("./images/hannam-evening-alley.webp") center 57% / cover,#212a42;
+  background:url("./images/hannam-evening-alley.webp") center 57% / cover,#212a42;
 }
 .alley-walk::before{
   content:"";
@@ -185,7 +183,6 @@ button.secondary{background:transparent;border:1px solid #e9c9934a;color:var(--i
   box-shadow:0 0 10px 2px #ecc27a58;
 }
 .alley-walk:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
-.alley-letter-hint{padding:8px 13px;border:1px solid #ead3aa74;border-radius:999px;background:#141b2dd9;color:var(--ink)}
 .alley-next{margin:-8px 0 22px}
 .alley-next .secondary{margin:0}
 #postscript{padding:0;border:0;background:transparent;box-shadow:none;perspective:900px}
@@ -288,9 +285,7 @@ button.secondary{background:transparent;border:1px solid #e9c9934a;color:var(--i
   <div id="stop-1" class="route-stop">
     <p class="route-label">1차 · 저녁 식사</p>
   </div>
-  <button id="alley-letter" class="alley-walk" type="button" aria-controls="postscript">
-    <span class="alley-letter-hint">숨겨진 편지 열기</span>
-  </button>
+  <button id="alley-letter" class="alley-walk" type="button" aria-label="골목길 사진에서 숨겨진 편지 열기" aria-controls="postscript"></button>
   <div class="alley-next">
     <button id="next-stop" type="button" class="secondary">골목길 따라 2차로</button>
   </div>
