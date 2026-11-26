@@ -137,9 +137,53 @@ button.secondary{background:transparent;border:1px solid #e9c9934a;color:var(--i
 .paper{background:linear-gradient(155deg,#fff9ed,#f6ead7);border-color:#fff4e4;color:#322824;color-scheme:light}
 #body{white-space:pre-wrap;overflow-wrap:anywhere}
 #signature{text-align:right;white-space:pre-wrap}
-.itinerary-steps{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px}
-.itinerary-steps button{border:1px solid #ead3aa45;background:#202b43;color:var(--ink)}
-.itinerary-steps button[aria-pressed="true"]{background:var(--gold);color:#261b16;border-color:var(--gold)}
+.alley-route{position:relative;padding-left:22px}
+.alley-route::before{
+  content:"";
+  position:absolute;
+  top:15px;
+  bottom:18px;
+  left:4px;
+  width:2px;
+  background:repeating-linear-gradient(to bottom,#e9c993a0 0 5px,transparent 5px 11px);
+}
+.route-stop{position:relative;scroll-margin-top:20px}
+.route-stop::before{
+  content:"";
+  position:absolute;
+  left:-22px;
+  top:12px;
+  width:10px;
+  height:10px;
+  border-radius:50%;
+  background:var(--gold);
+  box-shadow:0 0 0 4px #d9af6c30;
+}
+.route-label{margin:0 0 9px;color:var(--gold);font-size:.92rem;font-weight:650;letter-spacing:.015em}
+.alley-walk{
+  position:relative;
+  display:flex;
+  align-items:flex-end;
+  justify-content:center;
+  min-height:clamp(230px,68vw,350px);
+  margin:18px 0 22px;
+  padding:18px 12px;
+  border:1px solid #ead3aa38;
+  border-radius:16px;
+  background:linear-gradient(to bottom,#10162b15 24%,#101626b0 78%,#101626eb),url("./images/hannam-evening-alley.webp") center 57% / cover,#212a42;
+}
+.alley-walk::before{
+  content:"";
+  position:absolute;
+  left:-18px;
+  top:calc(50% - 5px);
+  width:4px;
+  height:10px;
+  border-radius:6px;
+  background:var(--gold);
+  box-shadow:0 0 10px 2px #ecc27a58;
+}
+.alley-walk button{max-width:100%;white-space:normal}
 .itinerary-stop{border:1px solid #ead3aa40;border-radius:16px;overflow:hidden;background:#222d45}
 .itinerary-image{aspect-ratio:16/10;margin:0;background:#182135}
 .itinerary-image img{display:block;width:100%;height:100%;object-fit:cover}
@@ -216,13 +260,19 @@ button.secondary{background:transparent;border:1px solid #e9c9934a;color:var(--i
 </section>
 <section id="choices" aria-labelledby="choice-title" hidden>
 <h2 id="choice-title" tabindex="-1">우리의 한남동 저녁</h2>
-<div class="itinerary-steps" role="group" aria-label="데이트 코스">
-  <button id="first-stop" type="button" aria-pressed="true" aria-controls="stop-1">1차 · 저녁 식사</button>
-  <button id="second-stop" type="button" aria-pressed="false" aria-controls="stop-2">2차 · 막창</button>
+<div id="itinerary" class="alley-route" aria-label="한남동 데이트 동선">
+  <div id="stop-1" class="route-stop">
+    <p class="route-label">1차 · 저녁 식사</p>
+  </div>
+  <div class="alley-walk">
+    <button id="next-stop" type="button">골목길 따라 2차로</button>
+  </div>
+  <div id="stop-2" class="route-stop">
+    <p class="route-label">2차 · 막창</p>
+  </div>
 </div>
-<div id="itinerary"></div>
 <div class="itinerary-actions">
-  <button id="next-stop" type="button">2차 장소 보기</button>
+  <button id="previous-stop" type="button" class="secondary">1차로 돌아가기</button>
   <button id="back" type="button" class="secondary">편지 다시 읽기</button>
 </div>
 <template id="stop-template">
@@ -325,11 +375,11 @@ function fillInvitation(invitation) {
     return button;
   }));
   get('signature').textContent = invitation.signature;
-  get('itinerary').replaceChildren(...invitation.venues.map((venue, index) => {
+  invitation.venues.forEach((venue, index) => {
     const stop = get('stop-template').content.firstElementChild.cloneNode(true);
-    stop.id = 'stop-' + (index + 1);
+    const location = get('stop-' + (index + 1));
     const name = stop.querySelector('.itinerary-name');
-    name.id = stop.id + '-name';
+    name.id = location.id + '-name';
     name.textContent = venue.name;
     stop.setAttribute('aria-labelledby', name.id);
     stop.querySelector('.itinerary-address').textContent = venue.address;
@@ -345,23 +395,14 @@ function fillInvitation(invitation) {
       credit.hidden = true;
     }, { once: true });
     image.src = venue.photo;
-    return stop;
-  }));
-  showStop(0);
+    location.append(stop);
+  });
 }
 
-function showStop(index, focus = false) {
-  [get('first-stop'), get('second-stop')].forEach((button, position) => {
-    const active = index === position;
-    button.setAttribute('aria-pressed', String(active));
-    const stop = get(button.getAttribute('aria-controls'));
-    if (stop.hidden !== !active) {
-      stop.hidden = !active;
-      stop.classList.toggle('panel-in', active && !reducedMotion.matches);
-    }
-    if (active && focus) stop.querySelector('.itinerary-name').focus();
-  });
-  get('next-stop').textContent = index === 0 ? '2차 장소 보기' : '1차 장소 다시 보기';
+function walkTo(stopId) {
+  const stop = get(stopId);
+  stop.querySelector('.itinerary-name').focus({ preventScroll: true });
+  stop.scrollIntoView({ block: 'start', behavior: reducedMotion.matches ? 'auto' : 'smooth' });
 }
 
 get('unlock').addEventListener('submit', async event => {
@@ -397,11 +438,8 @@ get('unlock').addEventListener('submit', async event => {
 
 get('show-choices').addEventListener('click', () => show('choices', 'choice-title'));
 get('back').addEventListener('click', () => show('letter', 'greeting'));
-get('first-stop').addEventListener('click', () => showStop(0));
-get('second-stop').addEventListener('click', () => showStop(1));
-get('next-stop').addEventListener('click', () => {
-  showStop(get('first-stop').getAttribute('aria-pressed') === 'true' ? 1 : 0, true);
-});
+get('next-stop').addEventListener('click', () => walkTo('stop-2'));
+get('previous-stop').addEventListener('click', () => walkTo('stop-1'));
 </script>
 </body>
 </html>
