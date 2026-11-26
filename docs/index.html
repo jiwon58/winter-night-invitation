@@ -135,7 +135,7 @@ button.secondary{background:transparent;border:1px solid #e9c9934a;color:var(--i
 [hidden]{display:none!important}
 .feedback{margin:0;color:#ffd4b5}
 .paper{background:linear-gradient(155deg,#fff9ed,#f6ead7);border-color:#fff4e4;color:#322824;color-scheme:light}
-#body{white-space:pre-wrap;overflow-wrap:anywhere}
+.letter-copy{white-space:pre-wrap;overflow-wrap:anywhere}
 #signature{text-align:right;white-space:pre-wrap}
 .alley-route{position:relative;padding-left:22px}
 .alley-route::before{
@@ -167,6 +167,7 @@ button.secondary{background:transparent;border:1px solid #e9c9934a;color:var(--i
   justify-content:center;
   min-height:clamp(230px,68vw,350px);
   margin:18px 0 22px;
+  width:100%;
   padding:18px 12px;
   border:1px solid #ead3aa38;
   border-radius:16px;
@@ -183,7 +184,30 @@ button.secondary{background:transparent;border:1px solid #e9c9934a;color:var(--i
   background:var(--gold);
   box-shadow:0 0 10px 2px #ecc27a58;
 }
-.alley-walk button{max-width:100%;white-space:normal}
+.alley-walk:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+.alley-letter-hint{padding:8px 13px;border:1px solid #ead3aa74;border-radius:999px;background:#141b2dd9;color:var(--ink)}
+.alley-next{margin:-8px 0 22px}
+.alley-next .secondary{margin:0}
+#postscript{padding:0;border:0;background:transparent;box-shadow:none;perspective:900px}
+.postscript-paper{
+  position:relative;
+  padding:clamp(24px,6vw,46px);
+  border:1px solid #fff4e4;
+  border-radius:16px;
+  color:#322824;
+  background:linear-gradient(165deg,#fff9ed 0%,#fff6e6 48%,#eddec7 50%,#fbf0db 52%,#f6ead7 100%);
+  box-shadow:0 22px 60px #05081168;
+  transform-origin:50% 0;
+}
+#postscript:not([hidden]) .postscript-paper{animation:unfold-note 780ms var(--settle) both}
+#postscript:not([hidden]) .letter-copy{animation:fade-in 420ms 230ms ease-out both}
+.postscript-paper h2{margin-bottom:17px}
+.postscript-paper p{margin:0}
+@keyframes unfold-note{
+  0%{opacity:.52;transform:translateY(20px) rotateX(-61deg) scaleY(.28);clip-path:inset(0 0 68% 0 round 16px)}
+  48%{opacity:1;transform:translateY(3px) rotateX(-19deg) scaleY(.78);clip-path:inset(0 0 21% 0 round 16px)}
+  100%{opacity:1;transform:translateY(0) rotateX(0) scaleY(1);clip-path:inset(0 0 0 0 round 16px)}
+}
 .itinerary-stop{border:1px solid #ead3aa40;border-radius:16px;overflow:hidden;background:#222d45}
 .itinerary-image{aspect-ratio:16/10;margin:0;background:#182135}
 .itinerary-image img{display:block;width:100%;height:100%;object-fit:cover}
@@ -196,7 +220,7 @@ button.secondary{background:transparent;border:1px solid #e9c9934a;color:var(--i
 .itinerary-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:16px}
 .itinerary-actions .secondary{margin-top:0}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
-#body .heart-button{
+.letter-copy .heart-button{
   display:inline-block;
   vertical-align:baseline;
   min-height:0;
@@ -254,7 +278,7 @@ button.secondary{background:transparent;border:1px solid #e9c9934a;color:var(--i
 <section id="letter" class="paper" aria-labelledby="greeting" hidden>
 <div id="letter-flower" class="letter-flower" aria-hidden="true"></div>
 <h2 id="greeting" tabindex="-1"></h2>
-<p id="body"></p>
+<p id="body" class="letter-copy"></p>
 <p id="signature"></p>
 <button id="show-choices" type="button">데이트 코스 보기</button>
 </section>
@@ -264,8 +288,11 @@ button.secondary{background:transparent;border:1px solid #e9c9934a;color:var(--i
   <div id="stop-1" class="route-stop">
     <p class="route-label">1차 · 저녁 식사</p>
   </div>
-  <div class="alley-walk">
-    <button id="next-stop" type="button">골목길 따라 2차로</button>
+  <button id="alley-letter" class="alley-walk" type="button" aria-controls="postscript">
+    <span class="alley-letter-hint">숨겨진 편지 열기</span>
+  </button>
+  <div class="alley-next">
+    <button id="next-stop" type="button" class="secondary">골목길 따라 2차로</button>
   </div>
   <div id="stop-2" class="route-stop">
     <p class="route-label">2차 · 막창</p>
@@ -288,9 +315,16 @@ button.secondary{background:transparent;border:1px solid #e9c9934a;color:var(--i
   </article>
 </template>
 </section>
+<section id="postscript" aria-labelledby="postscript-title" hidden>
+  <article class="postscript-paper">
+    <h2 id="postscript-title" tabindex="-1">숨겨진 편지</h2>
+    <p id="postscript-body" class="letter-copy"></p>
+  </article>
+  <button id="back-to-alley" type="button" class="secondary">골목길로 돌아가기</button>
+</section>
 </main>
 <div id="heart-rain" class="heart-rain" aria-hidden="true"></div>
-<script id="sealed-data" type="application/json">{"salt":"ddB1SG+t6TN1gypDxMa+IQ==","iv":"InhpsZF7WTDip4MA","iterations":600000,"ciphertext":"8V3GTKBRQbozW5L8aMt/7hxOfO/ufdan3Rsa3n0/+hAfHVI+RCP8HTL3fs57G0wkhpmX7bSRrSVClye8mqipYepLJ9pv1x9THJaICtgLqE1Qz6cl1SKAJ7PXaXb7a5WpgrzARtJmIJsAMqjY443zUifiVZadYQ9BQGPz5LUze3FRY9dFV0bJ1Uv0uhReAigU9rYDpXnvuyAc9PuWU9+Nl8hdfhyJO0Ru5MvHWVNRmyEZrwGEzjHX0n4B5KJFcoeOf6zbXA2LkFOCSF5gQ3PIq8HsnfhWVRCgne33z9tfWQ7AOMS3NMoOuGng83rfbTy+voUuGpVgxgyNHvgbvZFy2YEiRVs3Vw3vNlVXIzxOIIHdpbYSS+N4Rw8Q61WrU7KvQOT5k2/f/jrZ+AjQ8Nrn489Z8Yq1947APs8quL0yYdXOuR/K/QSFlFQMwlcuFcTuM7j/T+/MVCWhTTkfW++W1vZGbU1Qv2YJH2gzPc4a1OTPbQoFLpB8CFl/+n1g82pHSi92ygLYohde5Y/uCwYbaplVZClW7mPr8WlhK6a0fwwzemqfJam7PJYKF9wvAWbUZm8aGtoPybaqhElYP4qYxf4l7ZdxIMCej+GbAETz46tLQq0YarIZ/8YyhjZNx2wu1ZRWNc89SbqyRFOL8sztSw4ITgYdjr5kQTh68ezyHA/oeHBEq/5eQqbdTU77HsddMuSwr5p7q8p/JmcpeU8XQiAL+zFlikT5UNSAglOWI5E0neHLmYUCThpB8rjiBOVVyXi4WOpp9VT7MvDh1aaczskQqloHyt9u7ik4SbfMpUr4UiIXM/F3HGbz5TTpBG1nnWt+yueos1rMlL/4Q978hNHfdyRvhwvKUZKWQrR5DS1DlkGyqmDuR0UJmrnVMoLuxopbFk16o952NhKsMZCJxhYAbUIShkaAOPqgkhR14z55WVcNhkxsex+lEih0yE6r+hTgqen/EIq/pBMzMp3Xzo6zMsrXQ6TGEBNhdzuXr7KHMYbN4EnqMNHOBzdskx8wDf+UwrKh2yHwGM54ICXyQqxTpn+W3I3erTie8syWVxRBcZeMTV3QW83ZumHpc68tKxGZqdr+OoKSmuf/PVRIWC7rvf8+GE5jUGQGelgD35DXJoY2BPblvW92ZgvDb680fGMoZ0q0iPBg6tJuclQ3+xkgVWiedE0gPBcZsuenuf9exJdTaRgdBiSSNHpOM1xLvhmMf5Sd2817Qc9JKQvX91KfsDxky8I/VAscWXfcsu7bI0BG4mAbA9q6XSAAFeyd7vd0QXqLCws4sMf3pcxRuMSF2U9tN7p60ILXuc36stAwaqbik3U5KbhBBgmYuWvxPep5CH4EWRHR79SqU7HfjzjfHqprNY+XCx5Wd8qjMV0TNp4AXbo4ospiahT0sn9Qz/e/jIOfGm3LSXo/hwsWr8i8LkeCNGspgG/zhzVIOBE2fg6EWWQWIZ/ay9zuF7wHuKHP5LMqXqLMV1MAhVP5PJrdUuBwVTjeJ3mV8Po8zZXDWCPcqfs3LqqxM3Fgrf/lkAyBl+L4Oy94JR0/TEEeEpxSQtoLs/Y8ESK37e9k/wdZXJ9AndlWYI7NmnEmswYcM2rku3C0pORMF7U3rUWxw06xlDGdQBsT36T5beK4Or8FsvuKRgRpKZTZapYKF4VyD5pRGkZQYoJWKQ52Js5fCFkbMjgPeYMfJmQKIzWyLa9RmsZzZ1c33M+hMgmayupsVzbhg6B78F9AtkxzpbTCngMndQgFv2Va8O0oUzMANS3LHn0Ht5xPLmHBM6twzSNBr4keAXuzqianNxCUUywIQ+UTBbzE6Gkj7it77M8ryFFfdxFI9tm3ldL/iaiEvzXVRo1BzZswkU5T2lZhbdfdtguuC99hKoJdHJpUeTckwlN9/Z9mBoTF62CWcr3EvQqAcb1lWBdwF+XZuj/2oQ3+gD/OnzahvA4m6KsdHnw3bTcjHMD4sWk8mDFGx6Q47v6/hF97mAEi47k="}</script>
+<script id="sealed-data" type="application/json">{"salt":"rO7jWhwlcNd81OdKcmq7xg==","iv":"aO622BdeTtgw3Ssb","iterations":600000,"ciphertext":"BpKhWBslsqufNwiFtRqY6K8PUsYP65IOY3Ij0L4u58FxOqI+Tmxa1iRGhCu64y0K/EpqtVH9hrYtvmgQ3bahkFTPWVDPOpVmZeb/GMeoUbehpfH2BA/cg3hYAiPpfuXO0OvgLxwmIkF8MnnMV5LnCVee3TnMVHohpm1LQUcurzgXCeHQWjM1uhLtG7hEr+E8GeNRSaxkoWt5OzHwTR8cXUcz2EZacs72LTfo/MsrgtZ4fx5Gai8NCIpoYCnbWXXhrPTOsVPO44KQT5i0UO6gnYTcvIZsLvMVFWtNlxC6FcNjDx9EVRx24t1bprSi8VRIjlGwR3d9e8AAUYmy59WqFD8yCKoBCnWvW+cXOnK5qTL8iOpHUhChpzeIRgxexeiDj+ni08jCAWCltuo39YhmUIdMx0aVPz/4ME+dBCBVn0J7ULaONL0sMFkNmJFERZbPyuylzj2jn55KwovPbzXcv5kUXrr7rPUqnzELxKBU9NqE/hUxKU/hwdOwKGFTfCFVTkmRDCA85g96sL1cLXsLWkDJMbOkxu8V5ccqtviEiPCxTRwpWE039ZafSYnuvOrRuvNWTgM9WX3S/K9PVf5hSocotiMumn1ldO0rbvRis00t1wm3JxbRg/MNHV+nP8cGZHSyP3IBSW9xHTu9y0IAObT1G6uLtnNCe3vWQyuDsHat3Ebj0vhs+EbIxxeS1tT540ilOsNwcc+CyBnCa2MmMff3Qwnr9nqJqxnBB3ucOxJ/AQmVbT4DefHSgMcN36/5aWCw+MP3Vnh1Fzy1C1GeOEJ4ebfWwA148fbtHtHtXxkqNzElQzI7rmRDzAkzFfOHhQg0E5I9C7Zu12vVedv8+jVAf6mOCs4Z85GKwwXhbXhEvIQJUbpRlJCAE8VIXMujlfhu96P3Mjn6XPzgjoSCb820cLtYZGn367mwnE5x/GcbZn4czaiz1qr9l3u+f+fXguvnFmYL3P3t0cBaFn4YznUZkyGSecXxpuK52VKMtjttq6EVskXUrAQeZaNzac46i7dJMMaNNdk3xwEVExeLDNsUEppHcIFJX8omCPp2bcaYyA+7uyy58Z1uOkgUQ1eY4kbo6w0lw/JJ/kvSr0eck806PmYspN27kpT81Y2OudtMEdNnUl+dG8igvcQCa+2SeZFfYVu1WO2NtBK1kBLBaM02NjKabSDmHemBOOosbhIVRbfuU+0QOWysVW2PvRaSTSUYzy6c/EnaL+jVHDHlAghyztQNbiV62tEha8SFsj4lX6tYQmRC43DfS9Y+KwLisW47JAzH+5sVqQ96TOunTEAKHyewRaz+OgZDO2pWZ2E0bkKISvoB65Ndx/BUeemfxZZQDsNesi2/C/iF9HdqJM9gol9JDYG3sLz8+yyifcmb/As2RwjkQCFAgobr3APcYQyhQ0iQnKazWKAfxSkz6H9eMVJ01vjAS7kxLZyyCZpVH91579AGRrt2dw75t876A3pmI/9p89679OyL8eAoJOfp909Mbh4eZqydcFhT8jWaBRlTN2iH13Duk7Blo5LVALew/yUNybLiWwD2JHQgSfxK29vkuY9N3o+9SrU9Vym0VFqWNqMLl4hc3Z4pDEmk4FEkAzGRnDX0nB2cthLBN9UlwOwH5CllmnXOcgcuUlp/cUIgQPGhcZrgjatEuv9Q4/FTzxLEAO4RvJw8ugDfoolc9KzcmX6YV6noWHFY8CT3oXO+Cug+Aluzb9dSaSFYGSGkE5PYJrcGHNJIXJYsQ2aQvw8FOjCd0e2pE9gP1b8UYCYgui1z6kh8qXZqpjt8oDhvDGPdQs/dewP26hx+Suo3QTV8BP4iaYQn6iX5nlKV1iXm3XynlKhKvDNVKozrN9Oxi7iAKJqsWQG395FzoNwnNwn3cIzUbNaIB8gHaKv9fsytJZFZyuxL+AnWViJsKdWSIDAyFm2sGgg1JlNBdGSDg7odNsUw/kBG4lMqokY3sA18mHQwnGi8BI71WarwmKvoqqs9HXJlm8GwyvqHMbDah0uHk5M+X40jatCvo5JyhLoZKKQcVJtyvCEJms/6mDLVbkfUhKJ9yFLnKwa0DT9icVm0b1I0lDFn0BIdQuRjfITyGCMHgWWMG0ZKhxtGWqKcodeeqIlkljyi7wNfxYGBX59VqNZ3P4q+6x7JDPCi/7am0caPBuHp+xAIpvXegk0jJsybPotOuaF0ZiFj3UMtRB1j7JEu8ZDEGnsGfTAgeXMVALXMYJaU7M2cBc9oITCnMKld"}</script>
 <script>
 const get = id => document.getElementById(id);
 const decode = value => Uint8Array.from(atob(value), char => char.charCodeAt(0));
@@ -299,7 +333,7 @@ const sealed = JSON.parse(get('sealed-data').textContent);
 const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
 
 function show(id, heading, animate = true) {
-  for (const panel of ['cover', 'letter', 'choices']) {
+  for (const panel of ['cover', 'letter', 'choices', 'postscript']) {
     const element = get(panel);
     element.hidden = panel !== id;
     element.classList.toggle('panel-in', panel === id && animate && !reducedMotion.matches);
@@ -339,7 +373,7 @@ async function unsealLetter() {
 }
 
 const heartColors = ['❤️', '🩷', '🧡', '💛', '💚', '🩵', '💙', '💜', '🤎', '🖤', '🩶', '🤍'];
-const heartPattern = /((?:(?:❤️?|[🩷🧡💛💚🩵💙💜🤎🖤🩶🤍💕💞💓💗💖💝💘]))+)/gu;
+const heartPattern = /((?:[❤♥]\uFE0F?|[🩷🧡💛💚🩵💙💜🤎🖤🩶🤍💕💞💓💗💖💝💘])+)/gu;
 
 function showerHearts() {
   const rain = get('heart-rain');
@@ -362,9 +396,8 @@ function showerHearts() {
   rain.replaceChildren(...hearts);
 }
 
-function fillInvitation(invitation) {
-  get('greeting').textContent = invitation.greeting;
-  get('body').replaceChildren(...invitation.body.split(heartPattern).map((part, index) => {
+function fillLetterBody(id, text) {
+  get(id).replaceChildren(...text.split(heartPattern).map((part, index) => {
     if (index % 2 === 0) return document.createTextNode(part);
     const button = document.createElement('button');
     button.type = 'button';
@@ -374,6 +407,13 @@ function fillInvitation(invitation) {
     button.addEventListener('click', showerHearts);
     return button;
   }));
+}
+
+function fillInvitation(invitation) {
+  get('greeting').textContent = invitation.greeting;
+  fillLetterBody('body', invitation.body);
+  fillLetterBody('postscript-body', invitation.postscript ?? '');
+  get('alley-letter').hidden = !invitation.postscript;
   get('signature').textContent = invitation.signature;
   invitation.venues.forEach((venue, index) => {
     const stop = get('stop-template').content.firstElementChild.cloneNode(true);
@@ -439,6 +479,11 @@ get('unlock').addEventListener('submit', async event => {
 get('show-choices').addEventListener('click', () => show('choices', 'choice-title'));
 get('back').addEventListener('click', () => show('letter', 'greeting'));
 get('next-stop').addEventListener('click', () => walkTo('stop-2'));
+get('alley-letter').addEventListener('click', () => show('postscript', 'postscript-title', false));
+get('back-to-alley').addEventListener('click', () => {
+  show('choices', 'alley-letter', false);
+  get('alley-letter').scrollIntoView({ block: 'center' });
+});
 get('previous-stop').addEventListener('click', () => walkTo('stop-1'));
 </script>
 </body>
